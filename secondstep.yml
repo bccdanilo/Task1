@@ -1,0 +1,26 @@
+---
+  - name: Install Dependencies
+    hosts: nodes
+    tasks:
+  # clone git
+       - name: clone git
+         shell: git clone https://github.com/bccdanilo/DevOpsTest
+
+
+ # start install dependencies
+       - name: enter the git directory
+         become: yes
+         shell: cd DevOpsTest && pipenv --python 3 install --system --deploy
+
+  # set variables
+       - name: set variables
+         shell: |
+           export S3_URL=https://18.229.223.143
+           export S3_ACCESS_KEY=minioadmin
+           export S3_SECRET_KEY=minioadmin
+
+  # start shell n execute app
+       - name: start shell
+         shell: cd DevOpsTest && pipenv shell && gunicorn --bind 0.0.0.0:5000 wsgi:app
+         poll: 0
+

@@ -1,0 +1,3 @@
+[nodes]
+18.229.223.143 ansible_user=ubuntu #minha aws instance
+#35.161.247.146 servidor teste

@@ -1,0 +1,42 @@
+---
+  - name: Install Dependencies
+    hosts: nodes
+    tasks:
+
+   # Task to install dependencies
+       - name: install python
+         apt:
+           pkg:
+           - python3-pip
+           - python3-dev
+           - nginx
+           - python-setuptools
+           - gunicorn
+           - python-pip
+           state: present
+           update_cache: true
+         become: true
+
+
+
+   # Task to install virtualenv
+       - name: install virtualenv
+         pip:
+           name: pipenv
+           executable: pip3
+
+  # Task to install minio
+       - name: install minio
+         become: yes
+         shell: wget https://dl.min.io/server/minio/release/linux-amd64/minio
+
+  # Task to config minio     
+       - name: install minio     
+         become: yes
+         shell: chmod +x minio
+
+  # Task execute minio
+       - name: execute minio
+         become: yes
+         shell: ./minio server /data 
+         poll: 0
