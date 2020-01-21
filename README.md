@@ -2,9 +2,11 @@
 Usei como meu sistema operacional o Ubuntu Server 18.04.
 Escolhi utilizar Ansible para essa tarefa pois já conhecia o básico da ferramenta.
 Inicialmente adicionei ao arquivo "hosts" o endereço ip do servidor (com ssh liberado). 
+
 Optei por não criptografar ("ansible-vault encrypt "), para não ser necessário passar senha. Obs: removi as informações sensíveis do servidor do arquivo "hosts"
 Realizei os testes na minha máquina AWS
-Na playbook do ansible não especifiquei o tipo de sistema operacional, pois como todos estavam utilizando ubuntu o módulo 'apt' funciona normalmente.
+Na playbook do ansible não especifiquei o tipo de sistema operacional, pois como todos estavam utilizando ubuntu o módulo 'apt' funciona normalmente. 
+Um ponto importante na execução, o módulo 'pip' do ansible pode dar erro (informação retirada do forúm), portanto adicionar a o modulo 'executable: pip3' contorna a situação, porém pode ocorrer erros na execução, sendo necessário alterar a linha para 'executable: pip', esse erro não costuma ser frequente e não ocorreu em meus testes.
 Percebi que, ainda de acordo com os fóruns, o Ansible não possui um comando direto para o 'pipenv', para contornar a situação, utilizei o módulo 'shell'.
 Como seria necessário ter dois processos simultâneos em execução, o "minio" e a aplicação, não consegui fazer com que executassem na mesma playbook ou que algum dos dois processos seja executado no backend, ainda estou pesquisando sobre isso. Por essa razão, dividi a playbook em duas partes:
 --Na primeira parte "firststeps.yml" as bibliotecas necessárias são instaladas, optei por instalar o 'gunicorn' de forma externa para que pudesse ser reaproveitados em outras pipenv. Também optei por instalar 'pipenv', o 'minio', configurar e executar o minio. 
